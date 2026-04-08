@@ -1,0 +1,15 @@
+# <your-website> Blog
+
+> My app is a scheduling app called <your-website> that helps freelancers and small businesses manage clients and appointments
+
+This blog publishes content about scheduling, client management, and business productivity tools for freelancers and small businesses — from introductory concepts through comparisons and tool reviews. All content is SEO-optimized and organized by funnel stage (top, middle, and bottom).
+
+## Sections
+
+- / — all articles
+- /[slug] — individual article
+
+## Useful links
+
+- Website: https://<your-website>.app
+- Sitemap: https://<your-website>.app/sitemap.xml
