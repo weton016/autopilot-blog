@@ -34,7 +34,22 @@ export class KeywordResearchAdapter implements IKeywordResearchAdapter {
       }
     }
 
-    return [...cached, ...fresh];
+    const results = [...cached, ...fresh];
+
+    // Fallback: se não há resultados com métricas reais (sem DataForSEO ou cache vazio/zerado),
+    // usa as seeds do OpenAI com métricas padrão para não deixar os jobs sem keyword
+    const hasMetrics = results.some((k) => k.volume > 0);
+    if (!hasMetrics && seeds.length > 0) {
+      return seeds.map((text) => ({
+        text,
+        volume: 500,
+        difficulty: 30,
+        cpc: 0,
+        funnelStage,
+      }));
+    }
+
+    return results;
   }
 
   private async generateSeedKeywords(funnelStage: FunnelStage): Promise<string[]> {

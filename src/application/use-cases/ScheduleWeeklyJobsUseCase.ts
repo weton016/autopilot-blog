@@ -27,7 +27,7 @@ export class ScheduleWeeklyJobsUseCase {
     private readonly jobRepo: IJobRepository,
     private readonly keywordResearch: IKeywordResearchAdapter,
     private readonly topicHistory: ITopicHistoryReader
-  ) {}
+  ) { }
 
   async execute(postsPerDay: number, intervalDays: number): Promise<ScheduleWeeklyJobsResult> {
     const totalPosts = postsPerDay * intervalDays;
@@ -41,7 +41,10 @@ export class ScheduleWeeklyJobsUseCase {
     for (const stage of (['TOP', 'MIDDLE', 'BOTTOM'] as FunnelStage[])) {
       const raw = await this.keywordResearch.fetchKeywords(stage);
       const deduped = this.keywordService.deduplicateAgainstHistory(raw, usedKeywords);
-      keywordsByStage.set(stage, this.keywordService.filterAndRank(deduped));
+      const filtered = this.keywordService.filterAndRank(deduped);
+      // Se o filtro de métricas remover tudo (ex: sem DataForSEO, volume=0),
+      // usa a lista deduplicada sem filtro para garantir que o job terá keyword
+      keywordsByStage.set(stage, filtered.length > 0 ? filtered : deduped);
     }
 
     const today = new Date();
