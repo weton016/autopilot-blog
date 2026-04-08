@@ -9,8 +9,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "generate:secret": "node -e \"process.stdout.write('CRON_SECRET=' + require('crypto').randomBytes(32).toString('hex') + '\\n')\"",
-    "cron:weekly": "curl -s -X POST ${WEBSITE_URL:-http://localhost:3000}/api/cron/weekly-scheduler -H \"Authorization: Bearer ca00804b496bd3fb5be01d8b7294fd7a2e0b10024a0e97aee064603e35174541\" | npx --yes prettyjson",
-    "cron:daily": "curl -s -X POST ${WEBSITE_URL:-http://localhost:3000}/api/cron/daily-executor -H \"Authorization: Bearer ca00804b496bd3fb5be01d8b7294fd7a2e0b10024a0e97aee064603e35174541\" | npx --yes prettyjson"
+    "cron:weekly": "curl -s -X POST ${WEBSITE_URL:-http://localhost:3000}/api/cron/weekly-scheduler -H \"Authorization: Bearer ${CRON_SECRET}\" | npx --yes prettyjson",
+    "cron:daily": "curl -s -X POST ${WEBSITE_URL:-http://localhost:3000}/api/cron/daily-executor -H \"Authorization: Bearer ${CRON_SECRET}\" | npx --yes prettyjson"
   },
   "dependencies": {
     "@google/genai": "^1.48.0",
